@@ -5,9 +5,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract DappSheriff is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
+contract DappSheriff is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
@@ -17,13 +16,13 @@ contract DappSheriff is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
 
     constructor() ERC721("DappSheriff", "DAPPSHEF") {}
 
-    function safeMint(address to, string memory uri) public payable nonReentrant {
-        require(msg.value >= price, "Not enough ETH sent; check price!");
+    function mint(address to, string memory uri) external payable {
+        require(msg.value == price, "Wrong ETH value");
 
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
 
-        _safeMint(to, tokenId);
+        _mint(to, tokenId);
 
         _setTokenURI(tokenId, uri);
     }
@@ -40,13 +39,13 @@ contract DappSheriff is ERC721, ERC721URIStorage, Ownable, ReentrancyGuard {
         return super.supportsInterface(interfaceId);
     }
 
-    function setPrice(uint256 _price) public onlyOwner {
+    function setPrice(uint256 _price) external onlyOwner {
         price = _price;
 
         emit PriceChanged(_price);
     }
 
-    function withdraw() public onlyOwner nonReentrant {
+    function withdraw() external onlyOwner {
         (bool success,) = msg.sender.call{value: address(this).balance}("");
         require(success, "Withdrawal failed");
     }

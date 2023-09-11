@@ -38,33 +38,36 @@ export default async function (hre: HardhatRuntimeEnvironment) {
         signer
     );
 
-    // let tx = await contract.safeMint(signer.address, "I like this dapp", {value: ethers.utils.parseEther("0.003")});
-    // await tx.wait();
-    //
-    // console.log("Minted token 1");
-    //
-    // let priceTx = await contract.setPrice(ethers.utils.parseEther("0.001"));
+    let priceTx = await contract.setPrice(ethers.utils.parseEther("0.0003"));
+    await priceTx.wait();
+
+    let tx = await contract.mint(signer.address, "I like this dapp", {value: ethers.utils.parseEther("0.0003")});
+    await tx.wait();
+
+    console.log("Minted token 1");
+
+    // priceTx = await contract.setPrice(ethers.utils.parseEther("0.0001"));
     // await priceTx.wait();
     //
-    // tx = await contract.safeMint(signer.address, "This one I like too", {value: ethers.utils.parseEther("0.001")});
+    // tx = await contract.mint(signer.address, "This one I like too", {value: ethers.utils.parseEther("0.0001")});
     // await tx.wait();
-    //
-    // console.log("Minted token 2");
-    //
-    // await contract.balanceOf(signer.address).then((balance) => {
-    //     console.log(`Your balance is: ${balance}`);
-    // });
-    //
-    // await signer.provider.getBalance(signer.address).then((balance) => {
-    //     console.log(`Balance of deployer is: ${balance}`);
-    // });
-    //
-    // await signer.provider.getBalance(CONTRACT_ADDRESS).then((balance) => {
-    //     console.log(`Balance of contract is: ${balance}`);
-    // });
 
-    let withdrawTx = await contract.withdraw();
-    await withdrawTx.wait();
+    console.log("Minted token 2");
+
+    await contract.balanceOf(signer.address).then((balance) => {
+        console.log(`Your balance is: ${balance}`);
+    });
+
+    await signer.provider.getBalance(signer.address).then((balance) => {
+        console.log(`Balance of deployer is: ${balance}`);
+    });
+
+    await signer.provider.getBalance(CONTRACT_ADDRESS).then((balance) => {
+        console.log(`Balance of contract is: ${balance}`);
+    });
+
+    // let withdrawTx = await contract.withdraw();
+    // await withdrawTx.wait();
 
     await signer.provider.getBalance(signer.address).then((balance) => {
         console.log(`Balance of deployer is: ${balance}`);
