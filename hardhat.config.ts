@@ -29,7 +29,7 @@ const zkSyncTestnet =
 
 const config: HardhatUserConfig = {
     zksolc: {
-        version: "1.3.13",
+        version: "1.3.14",
         settings: {},
     },
     defaultNetwork: "zkSyncTestnet",
@@ -38,9 +38,15 @@ const config: HardhatUserConfig = {
             zksync: false,
         },
         zkSyncTestnet,
+        zkSync: {
+            url: "https://mainnet.era.zksync.io",
+            ethNetwork: "mainnet", // RPC URL of the network (e.g. `https://goerli.infura.io/v3/<API_KEY>`)
+            zksync: true,
+            verifyURL: "https://zksync2-mainnet-explorer.zksync.io/contract_verification",
+        },
     },
     solidity: {
-        version: "0.8.17",
+        version: "0.8.21",
     },
 };
 

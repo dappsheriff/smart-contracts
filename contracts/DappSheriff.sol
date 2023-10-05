@@ -10,11 +10,11 @@ contract DappSheriff is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
-    uint256 public price = 0.003 ether;
+    uint256 public price = 0.001 ether;
 
     event PriceChanged(uint256 newPrice);
 
-    constructor() ERC721("DappSheriff", "DAPPSHEF") {}
+    constructor() ERC721("DappSheriff", "DPS") {}
 
     function mint(address to, string memory uri) external payable {
         require(msg.value == price, "Wrong ETH value");
